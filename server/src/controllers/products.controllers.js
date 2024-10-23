@@ -20,7 +20,7 @@ const createProduct = async (req, res) => {
     const { name, price } = req.body;
 
     // Validar que los campos requeridos estén presentes
-    if (!name || !price || !req.file) {
+    if (!name || !price ) {
         return res.status(400).json({ status: "error", error: 'Faltan datos para crear el producto' });
     }
 
@@ -31,7 +31,6 @@ const createProduct = async (req, res) => {
             image:[] // Guardar el nombre del archivo de la imagen
         };
 
-        console.log(req.file);
         for (let i = 0; i < req.files.length; i++) {
             newProduct.image.push({ maintype: req.files[i].mimetype, path: `/files/products/${req.files[i].filename}`, main: i == 0 });
         }
