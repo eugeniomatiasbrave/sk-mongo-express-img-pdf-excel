@@ -1,6 +1,6 @@
-import { Router } from "express";
+
 import { productsService } from "../managers/index.js";
-import uploader from "../services/uploader.js";
+
 
 const getProducts =  async (req, res) => {
     try {
@@ -31,8 +31,13 @@ const createProduct = async (req, res) => {
             image:[] // Guardar el nombre del archivo de la imagen
         };
 
-        for (let i = 0; i < req.files.length; i++) {
-            newProduct.image.push({ maintype: req.files[i].mimetype, path: `/files/products/${req.files[i].filename}`, main: i == 0 });
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                newProduct.image.push({ maintype: req.files[i].mimetype, path: `/files/products/${req.files[i].filename}`, main: i == 0 });
+            }
+        } else {
+            // Usar la imagen por defecto
+            newProduct.image.push({ maintype: 'image/webp', path: '/files/default/default-image.webp', main: true });
         }
 
         const result = await productsService.createProduct(newProduct);
