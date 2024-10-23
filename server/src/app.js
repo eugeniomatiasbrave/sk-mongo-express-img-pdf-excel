@@ -16,7 +16,8 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname ,'public'))); 
-app.use('/uploads', express.static(path.resolve('uploads')));
+
+app.use(express.static(path.join(__dirname, 'public'))); // Servir archivos estáticos desde la carpeta 'public'
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Servir archivos estáticos desde la carpeta 'uploads'
 
 app.use('/api/products', productsRouter);

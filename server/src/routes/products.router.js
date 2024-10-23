@@ -1,17 +1,13 @@
 import { Router } from "express";
-import { productsService } from "../managers/index.js";
-import multer from "../services/uploader.js";
+import productsControllers from "../controllers/products.controllers.js";
+import uploader from "../services/uploader.js";
 
 const router = Router();
 
-router.get("/", productsService.getProducts);
-
-router.post('/', multer , productsService.createProduct);
-
-router.delete('/:pid', productsService.deleteProduct);
-
-router.get('/:pid', productsService.getProductById);
-
-router.put('/:pid', productsService.updateProduct);
+router.get("/", productsControllers.getProducts);
+router.delete('/:pid', productsControllers.deleteProduct);
+router.get('/:pid', productsControllers.getProductById);
+router.post('/', uploader.array('image', 3), productsControllers.createProduct);
+router.put('/:pid', productsControllers.updatedProduct);
 
 export default router;

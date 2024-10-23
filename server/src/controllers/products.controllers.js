@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { productsService } from "../managers/index.js";
-
-const router = Router();
+import uploader from "../services/uploader.js";
 
 const getProducts =  async (req, res) => {
     try {
@@ -17,30 +16,39 @@ const getProducts =  async (req, res) => {
 
 
 //Endpoint para crear una producto.
- const createProduct =  async (req, res) => {
+const createProduct = async (req, res) => {
     const { name, price } = req.body;
+
+    // Validar que los campos requeridos estén presentes
+    if (!name || !price || !req.file) {
+        return res.status(400).json({ status: "error", error: 'Faltan datos para crear el producto' });
+    }
 
     try {
         const newProduct = {
             name,
-			price,
-			image: req.file 
-     };
+            price,
+            image:[] // Guardar el nombre del archivo de la imagen
+        };
+
+        console.log(req.file);
+        for (let i = 0; i < req.files.length; i++) {
+            newProduct.image.push({ maintype: req.files[i].mimetype, path: `/files/products/${req.files[i].filename}`, main: i == 0 });
+        }
 
         const result = await productsService.createProduct(newProduct);
 
         if (!result) {
-            return res.status(500).send({ status: "error", error: 'Error' });
+            return res.status(500).send({ status: "error", error: 'Error al crear el producto' });
         }
 
-        res.json({ status: "success", message: 'Product created', payload: result }); // data: result es el producto creado.
+        res.json({ status: "success", message: 'Producto creado', payload: result });
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ status: 'error', error: error });
+        res.status(500).send({ status: 'error', error: error.message });
     }
 };
-
 
 const deleteProduct = async (req, res) => {
     const {pid} = req.params;
@@ -102,12 +110,15 @@ const updatedProduct =  async (req, res) => { // esta correcto: 27/09 8:02 am , 
     }
 };
 
-export {
+
+export default  {
     getProducts,
     createProduct,
     deleteProduct,
     getProductById,
     updatedProduct
-};
+}
 
-export default router;
+
+
+
