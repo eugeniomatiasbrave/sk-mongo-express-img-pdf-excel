@@ -91,22 +91,33 @@ const getProductById =   async (req, res) => {
 };
 
 const updatedProduct =  async (req, res) => { // esta correcto: 27/09 8:02 am , no cambiar
-    try {
+    
         const { pid } = req.params;
         const updateData = req.body;
 
-        if (!updateData.name || !updateData.image) {
-            return res.status(400).send({ status: "error", error: 'Faltan datos para actualizar el producto' });
+        if (!updateData) {
+            return res.status(400).json({ status: "error", error: 'Faltan datos para actualizar el producto' });
         }
-       
-        const result = await productsService.updateProduct(pid, updateData);
 
-        const updatedProduct = await productsService.getProductById(pid);
-        res.json({ status: "success", message: `Producto actualizado id: ${pid}`, data: updatedProduct });
-    } catch (error) {
-        console.error('Error al actualizar el producto:', error);
-        res.status(500).send({ status: "error", error: 'Error al actualizar el producto' });
-    }
+        try {
+            const product = await productsService.getProductById(pid);
+
+            if (!product) {
+                return res.status(404).send({ status: "error", error: 'Producto no encontrado' });
+            }
+
+            const updatedProduct = await productsService.updateProduct(pid, updateData);
+
+            if (!updatedProduct) {
+                return res.status(500).send({ status: "error", error: 'Error al actualizar el producto' });
+            }
+
+            res.send({ status: "success", data: updatedProduct });
+
+        } catch (error) {
+            console.error('Error al actualizar el producto:', error);
+            res.status(500).send({ status: "error", error: 'Error al actualizar el producto' });
+        } 
 };
 
 

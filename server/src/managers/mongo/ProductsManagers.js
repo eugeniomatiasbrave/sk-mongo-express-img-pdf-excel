@@ -19,7 +19,7 @@ export default class ProductsManagers {
     };	
 
     updateProduct(pid, updateData){ // edita uno
-        return productModel.updateOne({ _id: String(pid) }, { $set: updateData });
+        return productModel.updateOne({ _id: pid }, { $set: updateData });
     };
 
 };

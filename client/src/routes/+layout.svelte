@@ -10,7 +10,7 @@
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal">
-        <li><a href="/images" class="btn btn-ghost text-info font-bold">Images</a></li>
+        <li><a href="/products" class="btn btn-ghost text-info font-bold">Products Images</a></li>
         <li><a href="/files" class="btn btn-ghost text-info font-bold">Files</a></li>
       </ul>
     </div>
