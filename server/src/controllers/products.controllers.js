@@ -1,5 +1,8 @@
 
 import { productsService } from "../managers/index.js";
+import fs from 'fs';
+import path from 'path';
+import __dirname from '../utils.js';
 
 
 const getProducts =  async (req, res) => {
@@ -56,27 +59,44 @@ const createProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-    const {pid} = req.params;
-    try {
-        const product = await productsService.getProductById(pid);
+    const { pid } = req.params;
 
-        if (!product) {
-            return res.status(404).send({ status: "error", error: 'El producto que intentas borrar no existe' });
-        }
+    const product = await productsService.getProductById(pid);
 
-        const deletedProduct = await productsService.deleteProduct(pid);
-
-        if (!deletedProduct) {
-            return res.status(500).send({ status: "error", error: 'Error al borrar el producto' });
-        }
-
-        res.send({ status: "success", data: deletedProduct });
-
-    } catch (error) {
-        console.error('Error al borrar el producto:', error);
-        res.status(500).send({ status: "error", error: 'Hubo un problema al intentar borrar el producto' });
+    if (!product) {
+        return res.status(404).send({ status: "error", error: 'El producto que intentas borrar no existe' });
     }
+
+    const deletedProduct = await productsService.deleteProduct(pid);
+
+    if (!deletedProduct) {
+        return res.status(500).send({ status: "error", error: 'Error al borrar el producto' });
+    }
+
+    // Borrar la imagen del producto
+    if (product.image && product.image.length > 0) {
+        product.image.forEach(img => {
+            const imagePath = path.join(__dirname, '/public', img.path);
+            fs.access(imagePath, fs.constants.F_OK, (err) => {
+                if (err) {
+                    console.error(`La imagen no existe: ${img.path}`);
+                } else {
+                    fs.unlink(imagePath, (err) => {
+                        if (err) {
+                            console.error(`Error al borrar la imagen: ${img.path}`, err);
+                        } else {
+                            console.log(`Imagen borrada: ${img.path}`);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    res.json({ status: "success", message: 'Producto eliminado', payload: deletedProduct });
 };
+
+
 
 const getProductById =   async (req, res) => {
     const {pid} = req.params;
