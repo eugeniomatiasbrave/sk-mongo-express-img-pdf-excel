@@ -1,12 +1,12 @@
 <script>
     export let data;
 	const Products = data.products.payload;
-  console.log(Products);
+    console.log(Products);
 </script>
 
     <h2 class="my-4 text-4xl font-bold text-center text-white">List of Products</h2>
     <div class="my-2">
-		<a href="/products/create" class="btn btn-warning">Create Product</a>  
+		<a href="/products/create" class="btn btn-secondary">Create Product</a>  
     </div>
     <!-- Contenedor de lista de favoritos -->
     <div class="w-full rounded-md shadow-xl card bg-base-100">
@@ -42,7 +42,7 @@
                                     <td>
                                         <form method="POST" action={`/products/${p._id}/delete`}>
                                             <input type="hidden" name="pid" value={p._id} />
-                                            <button type="submit" class="btn btn-warning">Delete</button>
+                                            <button type="submit" class="btn btn-secondary">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

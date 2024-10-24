@@ -7,33 +7,34 @@ export const actions = {
 		const formData = await request.formData();
 		const name = formData.get('name');
 		const price = formData.get('price');
-		//const image = formData.get('image');
+		const image = formData.get('image');
 
-		if (isNaN(price)) {
-			return { success: false, error: 'Error, is not an number' };
-		}
+		console.log('name:', name, 'price:', price, 'image:', image); //llega la imagen
 
-		if (!name || !price ) {
-			return { success: false, error: 'Error Data ' };
-		}
+        if (isNaN(price)) {
+            return { success: false, error: 'Error, is not a number' };
+        }
 
-		const newProduct = {
-			name,
-			price
-		};
+        if (!name || !price || !image) {
+            return { success: false, error: 'Error Data ' };
+        }
 
-		const result = await fetch(`${API_URL}/products`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newProduct),
-		});
+        const newProductFormData = new FormData();
+        newProductFormData.append('name', name);
+        newProductFormData.append('price', price);
+        newProductFormData.append('image', image);
 
-		if (!result.ok) {
-			return { success: false, error: 'Error' };
-		}
+		console.log('newProductFormData:', newProductFormData); 
 
-		throw redirect(303, '/products');
+        const result = await fetch(`${API_URL}/products`, {
+            method: 'POST',
+            body: newProductFormData,
+        });
+
+        if (!result.ok) {
+            return { success: false, error: 'Error' };
+        }
+
+        throw redirect(303, '/products');
+    }
 	}
-}

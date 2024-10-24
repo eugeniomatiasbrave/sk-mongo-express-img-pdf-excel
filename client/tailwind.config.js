@@ -11,9 +11,9 @@ export default {
     themes: [
       {
         mytheme: { 
-          "primary": "#0a7399", // #0a7399   (azul petroleo)
+          "primary": "#0a7399", // 
           "secondary": "#f6d860",
-          "warning": "b3e240", // #b3e240 (verde limon)
+          "warning": "b3e240", // 
           "info": "#0a7399",
           "accent": "#65b8ca",
           "neutral": "#3d4451",

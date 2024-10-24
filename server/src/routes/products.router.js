@@ -4,7 +4,7 @@ import uploader from "../services/uploader.js";
 
 const router = Router();
 
-router.post('/', uploader.array('image', 3), productsControllers.createProduct); // funciona correctamente
+router.post('/', uploader.array('image',2), productsControllers.createProduct); // funciona correctamente
 router.get("/", productsControllers.getProducts); // funciona correctamente
 router.get('/:pid', productsControllers.getProductById); // funciona correctamente
 router.delete('/:pid', productsControllers.deleteProduct);
