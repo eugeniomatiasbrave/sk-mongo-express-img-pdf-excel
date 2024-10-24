@@ -1,7 +1,7 @@
 <script>
     export let data;
 	const Products = data.products.payload;
-  
+  console.log(Products);
 </script>
 
     <h2 class="my-4 text-4xl font-bold text-center text-white">List of Products</h2>
@@ -30,7 +30,7 @@
                                 <tr class="hover">
                                     <td>{p._id}</td>
                                     <td>
-                                     <img src={p.image} alt={p.name} class="w-20 h-20" />
+                                     <img src={"http://localhost:8080" + p.image[0].path } alt={p.name} class="w-20 h-20" />
                                     </td>
                                     <td>{p.name}</td>
                                     <td>{p.price}</td>

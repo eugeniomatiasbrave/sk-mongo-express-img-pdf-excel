@@ -39,9 +39,10 @@ const createProduct = async (req, res) => {
             // Usar la imagen por defecto
             newProduct.image.push({ maintype: 'image/webp', path: '/files/default/default-image.webp', main: true });
         }
-
         const result = await productsService.createProduct(newProduct);
 
+        // CREAR LUEGO UNA FUNCION / VALIDACION O CONDICIONAL PARA BORRAR LA IMAGEN SI NO SE CREA EL PRODUCTO
+        
         if (!result) {
             return res.status(500).send({ status: "error", error: 'Error al crear el producto' });
         }
