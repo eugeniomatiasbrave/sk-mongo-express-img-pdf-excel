@@ -30,7 +30,9 @@
                                 <tr class="hover">
                                     <td>{p._id}</td>
                                     <td>
-                                     <img src={"http://localhost:8080" + p.image[0].path } alt={p.name} class="w-20 h-20" />
+                                        {#each p.image as img}
+                                            <img src={"http://localhost:8080" + img.path} alt={p.name} class="w-20 h-20" />
+                                        {/each}
                                     </td>
                                     <td>{p.name}</td>
                                     <td>{p.price}</td>
