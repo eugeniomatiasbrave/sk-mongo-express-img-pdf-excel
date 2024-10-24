@@ -96,12 +96,11 @@ const getProductById =   async (req, res) => {
     }
 };
 
-const updatedProduct =  async (req, res) => { // esta correcto: 27/09 8:02 am , no cambiar
-    
+const updatedProduct =  async (req, res) => { 
         const { pid } = req.params;
-        const updateData = req.body;
-
-        if (!updateData) {
+        const { name, price } = req.body;
+        
+        if (!name || !price ) {  // Validar que los campos requeridos estén presentes
             return res.status(400).json({ status: "error", error: 'Faltan datos para actualizar el producto' });
         }
 
@@ -112,18 +111,33 @@ const updatedProduct =  async (req, res) => { // esta correcto: 27/09 8:02 am , 
                 return res.status(404).send({ status: "error", error: 'Producto no encontrado' });
             }
 
-            const updatedProduct = await productsService.updateProduct(pid, updateData);
+            const updateData = {
+                name,
+                price,
+                image:[] // Guardar el nombre del archivo de la imagen
+            };
 
-            if (!updatedProduct) {
+            if (req.files && req.files.length > 0) {
+                for (let i = 0; i < req.files.length; i++) {
+                    updateData.image.push({ maintype: req.files[i].mimetype, path: `/files/products/${req.files[i].filename}`, main: i == 0 });
+                }
+            } else {
+                // Usar la imagen por defecto
+                updateData.image.push({ maintype: 'image/webp', path: '/files/default/webp-800x450.webp', main: true });
+            }
+
+            const result = await productsService.updatedProduct(pid, updateData);
+
+            if (!result) {
                 return res.status(500).send({ status: "error", error: 'Error al actualizar el producto' });
             }
 
-            res.send({ status: "success", data: updatedProduct });
+            res.json({ status: "success", message: 'Producto actualizado', payload: result });
 
         } catch (error) {
-            console.error('Error al actualizar el producto:', error);
-            res.status(500).send({ status: "error", error: 'Error al actualizar el producto' });
-        } 
+            console.log(error);
+            res.status(500).send({ status: 'error', error: error.message });
+        }
 };
 
 

@@ -18,7 +18,7 @@ export default class ProductsManagers {
         return productModel.deleteOne({_id: pid});
     };	
 
-    updateProduct(pid, updateData){ // edita uno
+    updatedProduct(pid, updateData){ // edita uno
         return productModel.updateOne({ _id: pid }, { $set: updateData });
     };
 
