@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import  __dirname from "./utils.js";
 import productsRouter from "./routes/products.router.js";
+import writingsRouter from "./routes/writings.router.js";
 import mongoose from 'mongoose';
 import config from './config/config.js';
 
@@ -21,3 +22,4 @@ app.use(express.static(path.join(__dirname, 'public'))); // Servir archivos est√
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Servir archivos est√°ticos desde la carpeta 'uploads'
 
 app.use('/api/products', productsRouter);
+app.use('/api/writings', writingsRouter);
