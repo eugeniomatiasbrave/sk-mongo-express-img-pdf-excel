@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
     date: {
         type:Date,
         default:Date.now
+    },
+    file: {
+        type:String,
+        required:true
     }
 });
 
