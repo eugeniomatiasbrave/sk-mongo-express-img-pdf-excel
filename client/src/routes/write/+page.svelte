@@ -17,11 +17,9 @@
                     <!-- head -->
                     <thead class="text-center">
                         <tr>
-                            <th>Id</th>
+                            <th>Creation date</th>
                             <th>Title</th>
-                            <th>Text</th>
                             <th>File</th>
-                            <th>Date</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -29,13 +27,11 @@
                     <tbody class="text-center">
                         {#each Writings as w (w._id)}
                             <tr class="hover">
-                                <td>{w._id}</td>
-                                <td>{w.title}</td>
-                                <td>{w.text}</td>
-                                <td>
-                                    <a href={`/write/${w._id}`} class="btn btn-primary">View Document</a>
-                                </td>
                                 <td>{w.date}</td>
+                                <td>{w.title}</td>
+                                <td>
+                                    <a href={`/write/${w._id}`} class="btn btn-primary">View Doc.</a>
+                                </td>
                                 <td>
                                     <a href={`/write/${w._id}/edit`} class="btn btn-primary">Edit</a>
                                 </td>

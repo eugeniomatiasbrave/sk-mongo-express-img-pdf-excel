@@ -4,13 +4,13 @@ const API_URL = process.env.VITE_API_URL;
 export const actions = {
     default: async ({ request }) => {
         const formData = await request.formData();
-        const pid = formData.get('pid');
+        const wid = formData.get('wid');
 
-        if (!pid) {
-            return { success: false, error: 'Product ID is required' };
+        if (!wid) {
+            return { success: false, error: 'Doc ID is required' };
         }
 
-        const result = await fetch(`${API_URL}/products/${pid}`, {
+        const result = await fetch(`${API_URL}/writings/${wid}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,6 +21,6 @@ export const actions = {
             return { success: false, error: 'Error deleting product' };
         }
 
-        throw redirect(303, '/products');
+        throw redirect(303, '/write');
     }
 }
