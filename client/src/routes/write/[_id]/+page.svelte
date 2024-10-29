@@ -1,19 +1,13 @@
 <script>
 	export let data;	
 	const {writingById} = data;
-    console.log(writingById.data)
-
     const writing = writingById.data;
-
 	const id = writingById.data._id;
 
 	let pdfUrl = '';
 
 	async function sendHTMLToBackend() {
-
         const contentDiv = document.querySelector('#pdf-content').outerHTML;
-
-        
             const response = await fetch('http://localhost:8080/api/writings/pdf', {
                 method: 'POST',
                 headers: {
@@ -28,8 +22,7 @@
             window.open(pdfUrl, '_blank');
         } else {
             console.error('Error al crear el PDF:', result.error);
-        }
-      
+        } 
     }
 
 </script>

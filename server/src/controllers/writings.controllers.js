@@ -1,5 +1,6 @@
-import { writingsService } from "../managers/index.js";
+import { writingsService } from '../managers/index.js';
 import createPdf from '../libs/pdf-creator.js';
+import createXlsx from "../libs/xlsx-creator.js";
 import path from 'path';
 import __dirname from '../utils.js';
 
@@ -76,17 +77,14 @@ const deleteWriting = async (req, res) => {
 	}
 }
 
-const createPDFId = async (req, res) => {
-	const { html , id } = req.body;
-	
-	console.log(html , id);
+const createPDFId = async (req,res) => {
+	const {html,id} = req.body;
 
 	try {
         // Crear el PDF
 		const pdfFileName = `${id}.pdf`;
         const pdfPath = path.join(__dirname, 'public/files/pdfs', pdfFileName);
         await createPdf({ html, path: pdfPath });
-
         // Devolver la URL del PDF
 		const pdfUrl = `/files/pdfs/${pdfFileName}`;
 		res.json({ status: "success", message: 'PDF creado', url: pdfUrl });
@@ -97,6 +95,25 @@ const createPDFId = async (req, res) => {
 	
 }
 
+const createXLSX = async (req, res) => {
+	const { data } = req.body;
+	
+	console.log('Data recibida - ruta:', req.body);
+
+	try {
+		
+		const xlsxPath = path.join(__dirname, 'public/files/xlsx', path.basename('writings.xlsx'));
+		await createXlsx({ data, path: xlsxPath });
+		const xlsxUrl = `/files/xlsx/${path.basename('writings.xlsx')}`;
+
+		res.json({ status: "success", message: 'XLSX creado', url: xlsxUrl });
+	} catch (error) {
+		console.error('Error al crear el XLSX:', error);
+		res.status(500).send({ status: "error", error: 'Error al crear el XLSX' });
+	}
+
+}
+
 
 
 export default  {
@@ -104,5 +121,6 @@ export default  {
 	getWritings,
 	getWritingById,
 	deleteWriting,
-	createPDFId
+	createPDFId,
+	createXLSX
 }
