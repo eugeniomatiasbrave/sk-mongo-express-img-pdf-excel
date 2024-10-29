@@ -33,16 +33,50 @@
     }
 
 </script>
+<div class="flex justify-center">
+<div class="w-1/3 rounded-md shadow-xl card bg-base-100 mt-14">
 
-
-<div>
-	<button on:click={sendHTMLToBackend}>Create PDF</button>
-</div>
-
-<div id="pdf-content">
+	<button  on:click={sendHTMLToBackend}>Create PDF</button>
+  
+  <div id="pdf-content">
 	<h1>{writing.title}</h1>
 	<p>{writing.text}</p>	
+  </div>
 </div>
+</div>
+
+
+<style>
+   
+
+    #pdf-content {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 1rem;
+        border: 1px solid #fffefe;
+        border-radius: 5px;
+        background-color: #fffbfb;
+    }
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+
+    button {
+        width: 30%;
+        margin: 5px;
+        padding: 0.5rem 1rem;
+        background-color: #ff0022;
+        color: rgb(255, 255, 255);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
 	
 
 

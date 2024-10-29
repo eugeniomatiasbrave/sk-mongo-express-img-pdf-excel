@@ -1,4 +1,5 @@
 import pdf from 'pdf-creator-node';
+import fs from 'fs';
 
 export default async function createPdf({ html, path }) {
     try {

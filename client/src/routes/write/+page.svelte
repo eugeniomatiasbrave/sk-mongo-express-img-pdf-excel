@@ -30,7 +30,7 @@
                                 <td>{w.date}</td>
                                 <td>{w.title}</td>
                                 <td>
-                                    <a href={`/write/${w._id}`} class="btn btn-primary">View Doc.</a>
+                                    <a href={`/write/${w._id}`} class="btn btn-error text-white">View Doc & PDF.</a>
                                 </td>
                                 <td>
                                     <a href={`/write/${w._id}/edit`} class="btn btn-primary">Edit</a>
